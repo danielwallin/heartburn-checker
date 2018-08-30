@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,800');
+@import url('https://unpkg.com/basscss@8.0.2/css/basscss.min.css');
+
+
+/**
+ *
+ * #6acbba --green
+ * #eceff1 --disabled
+ * #426274 --heading
+ *
+ *
+ */
+
+body {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.root {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+main {
+  background-color: #fff;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  margin: 0;
+  color: #426274;
+}
+
+h3 {
+  font-size: 14px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+p {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  color: #426274;
+}
+
+a {
+  color: #6acbba;
+  text-decoration: underline;
+  cursor: pointer; 
+}
+
+button {
+  -webkit-appearance: none;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  padding: 10px 20px;
+  border: none;
+  font-size: 14px;
+  color: #426274;
+  border-radius: 3px;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+header {
+  border-bottom: 1px solid #eceff2;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+.container {
+  padding: 30px;
+}
+
+h2.question {
+  position: relative;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+h2.question:after {
+  content: "";
+  width: 10%;
+  height: 3px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #ecf0f1;
+}
+
+
+.back {
+  position: absolute;
+  left: 30px;
+  cursor: pointer;
+}
+
+.progress {
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background-color: #6acbba;
+  width: 100%;
+  transition: .3s ease transform;
+}
+
+/**
+ *
+ * Btns
+ *
+ */
+
+.btn-wrapper {
+  margin: 0 -5px;
+}
+
+.btn {
+  background-color: #eceff1;
+  border: 1px solid #eceff1;
+  outline: none;
+}
+
+.btn.btn-option {
+  color: #6acbba;
+  background-color: #fff;
+  border: 1px solid #6acbba;
+  margin: 5px;
+  border-radius: 20px;
+  transition: .3s ease;
+}
+
+.btn.selected, .btn.btn-option:hover {
+  background-color: #6acbba;
+  color: #fff;
+  border: 1px solid #6acbba;
+}
+
+.btn.selected img:not(.rightIcon) {
+  background: white;
+  padding: 4px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+}
+
+.btn.selected .icon {
+  padding-left: 5px;
+}
+
+.btn.btn-option.disabled {
+  background-color: #eceff1;
+  color: #6acbba;
+}
+
+.rightIcon {
+  right: 15px;
+  width: 10px;
+  height: 10px;
+}
+
+
+/**
+ *
+ * Helpers
+ *
+ */
+
+.flex1 {
+  flex: 1;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  width: 100%;
+}
+
+.vh100 {
+  height: 100vh;
+}
