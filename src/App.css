@@ -16,15 +16,21 @@ body {
   margin: 0 auto;
 }
 
-.root {
+#root {
   display: flex;
-  height: 100vh;
+  align-items: center;
   justify-content: center;
+  height: 100vh;
 }
 
 main {
   background-color: #fff;
   overflow: hidden;
+}
+@media only screen and (min-width: 401px) {
+  main {
+    max-height: 600px;
+  }
 }
 
 * {

@@ -14,7 +14,6 @@ import rightWhite from "./assets/icons/ic-arrow-right-white.svg";
 import check from "./assets/icons/ic-checkmark.svg";
 
 const Header = ({ progress, onBackPress, backIsVisible }) => {
-  const p = 100 - progress;
   return (
     <header className="p2 relative flex justify-center">
       {backIsVisible && (
@@ -29,7 +28,7 @@ const Header = ({ progress, onBackPress, backIsVisible }) => {
       )}
       <h3>Heartburn Checker</h3>
       <div
-        style={{ transform: "translateX(-" + p + "%)" }}
+        style={{ transform: `translateX(-${100 - progress}%)` }}
         className="absolute progress"
       />
     </header>
@@ -100,33 +99,42 @@ class App extends Component {
 
   prev = () => () => {
     if (this.storedData.length >= 1) {
-      this.setState({
-        ...this.storedData[this.storedData.length - 1]
-      });
-      if (this.storedData.length == 1) {
-        this.setState({
-          selectedData: null
-        });
-      }
-      this.storedData.pop();
+      this.setState(
+        {
+          ...this.storedData.pop()
+        },
+        () => {
+          if (this.storedData.length == 0) {
+            this.setState({
+              selectedData: null
+            });
+          }
+        }
+      );
     }
   };
 
   next = selectedData => () => {
     if (this.state.selectedData) {
       this.storedData.push(this.state);
+
+      const progress = findIndexByProperty(
+        json.questions,
+        "id",
+        selectedData.nextQuestion
+      );
+
+      const currentQuestion = findValueByProperty(
+        json.questions,
+        "id",
+        selectedData.nextQuestion
+      );
+
       this.setState(
         {
-          currentQuestion: findValueByProperty(
-            json.questions,
-            "id",
-            selectedData.nextQuestion
-          ),
-          progress: findIndexByProperty(
-            json.questions,
-            "id",
-            selectedData.nextQuestion
-          ),
+          currentQuestion: currentQuestion,
+          progress:
+            progress == -1 ? 100 : (progress / json.questions.length) * 100,
           userScore: Number(this.state.userScore) + Number(selectedData.score),
           outcome: this.getOutcome(selectedData.outcome)
         },
@@ -145,16 +153,18 @@ class App extends Component {
   };
 
   getOutcome(outcome) {
-    let outcomeId = null, result = null;
-    
+    let outcomeId,
+      result = null;
+
     if (outcome) {
       for (let index = 0; index < outcome.length; index++) {
         const nextQuestion = outcome[index];
-        if (nextQuestion.hasOwnProperty("max_score")) {
-          if (nextQuestion.max_score >= this.state.userScore) {
-            outcomeId = nextQuestion.outcome;
-            break;
-          }
+        if (
+          nextQuestion.hasOwnProperty("max_score") &&
+          nextQuestion.max_score >= this.state.userScore
+        ) {
+          outcomeId = nextQuestion.outcome;
+          break;
         } else {
           outcomeId = nextQuestion.outcome;
         }
@@ -227,11 +237,7 @@ class App extends Component {
         <Header
           backIsVisible={this.storedData.length >= 1}
           onBackPress={this.prev()}
-          progress={
-            this.state.progress == -1
-              ? 100
-              : (this.state.progress / json.questions.length) * 100
-          }
+          progress={this.state.progress}
         />
         <div className="container flex flex1 flex-column items-center justify-center">
           {currentQuestion && this.renderQuestion()}
@@ -246,7 +252,7 @@ export default App;
 
 /**
  *
- * Utility functions
+ * Helper functions
  *
  */
 
